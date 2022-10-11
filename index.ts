@@ -32,20 +32,38 @@ try {
       iso: '',
       fractionalUnit: ''
     }
-    $Ch(e).children().each((index, element) => {
-      switch (index) {
-        case 0:
-        row.country = $Ch(element).text().trim().replace(re, '')
-        case 1:
-        row.currency = $Ch(element).text().trim().replace(re, '')
-        case 2:
-        row.symbol = $Ch(element).text().trim().replace(re, '')
-        case 3:
-        row.iso = $Ch(element).text().trim().replace(re, '')
-        case 4:
-        row.fractionalUnit = $Ch(element).text().trim().replace(re, '')
-      }
-    })
+
+    if ($Ch(e).children().toArray().length === 6) {
+      $Ch(e).children().each((index, element) => {
+        switch (index) {
+          case 0:
+          row.country = $Ch(element).text().trim().replace(re, '')
+          case 1:
+          row.currency = $Ch(element).text().trim().replace(re, '')
+          case 2:
+          row.symbol = $Ch(element).text().trim().replace(re, '')
+          case 3:
+          row.iso = $Ch(element).text().trim().replace(re, '')
+          case 4:
+          row.fractionalUnit = $Ch(element).text().trim().replace(re, '')
+        }
+      })
+    } else if ($Ch(e).children().toArray().length === 5) {
+      const last = result[result.length - 1]
+      row.country = last.country
+      $Ch(e).children().each((index, element) => {
+        switch (index) {
+          case 0:
+          row.currency = $Ch(element).text().trim().replace(re, '')
+          case 1:
+          row.symbol = $Ch(element).text().trim().replace(re, '')
+          case 2:
+          row.iso = $Ch(element).text().trim().replace(re, '')
+          case 3:
+          row.fractionalUnit = $Ch(element).text().trim().replace(re, '')
+        }
+      })
+    }
     result.push(row)
   })
   const fileName = './currencies.json'
